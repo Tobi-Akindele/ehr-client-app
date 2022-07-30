@@ -4,7 +4,12 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
-  margin: 10px;
+  margin: 20px;
+  flex-direction: column;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
   justify-content: space-between;
 `;
 
@@ -19,23 +24,32 @@ const Input = styled.input`
     props.hasError ? '1px solid red' : '1px solid grey'};
 `;
 
+const ErrorContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+`;
+
 const TextField = ({ ...props }) => {
   const [field, meta] = useField(props);
 
   return (
     <Container>
-      <Label>{props.label}</Label>
-      <Input
-        hasError={meta.touched && meta.error ? true : false}
-        {...field}
-        {...props}
-        autoComplete='off'
-      />
-      <ErrorMessage
-        component='InputContainer'
-        name={field.name}
-        className='error'
-      />
+      <InputContainer>
+        <Label>{props.label}</Label>
+        <Input
+          hasError={meta.touched && meta.error ? true : false}
+          {...field}
+          {...props}
+          autoComplete='off'
+        />
+      </InputContainer>
+      <ErrorContainer>
+        <ErrorMessage
+          component='InputContainer'
+          name={field.name}
+          className='error'
+        />
+      </ErrorContainer>
     </Container>
   );
 };
