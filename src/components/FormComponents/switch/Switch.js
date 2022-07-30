@@ -4,7 +4,7 @@ import './switch.css';
 
 const Container = styled.div`
   display: flex;
-  margin: 10px;
+  margin: 20px;
   justify-content: space-between;
   width: ${(props) => props.width};
 `;
