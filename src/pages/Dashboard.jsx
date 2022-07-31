@@ -2,7 +2,6 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
 import Switch from '../components/FormComponents/switch/Switch';
 import TextField from '../components/FormComponents/TextField';
@@ -10,6 +9,8 @@ import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 import * as Yup from 'yup';
 import { faker } from '@faker-js/faker';
+import { DataGrid } from '@mui/x-data-grid';
+import uuid from 'react-uuid';
 
 const Container = styled.div`
   display: flex;
@@ -50,10 +51,12 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   border: none;
   padding: 10px;
+  margin: 5px;
   background-color: #000000;
   color: white;
   font-weight: 600;
   cursor: pointer;
+  width: 5rem;
   &:disabled {
     cursor: not-allowed;
   }
@@ -67,10 +70,17 @@ const DataContainer = styled.div`
   margin: auto;
 `;
 
+const ControlContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const ControlTitle = styled.h1``;
+
 const Dashboard = () => {
   const [isDoc, setIsDoc] = useState(true);
   const [generating, setGenerating] = useState(false);
-  const [selectedRows, setSelectedRows] = useState([]);
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
@@ -85,14 +95,13 @@ const Dashboard = () => {
 
     if (!isDoc) {
       for (let id = 1; id <= dataSize; id++) {
-        let firstName = faker.name.firstName();
-        let lastName = faker.name.lastName();
+        let name =
+          faker.name.firstName() + ' ' + faker.name.lastName().toUpperCase();
         let message = faker.lorem.sentences();
 
         records.push({
-          id: id,
-          firstName: firstName,
-          lastName: lastName,
+          id: uuid(),
+          name: name,
           data: message,
         });
       }
@@ -106,24 +115,17 @@ const Dashboard = () => {
     {
       field: 'id',
       headerName: 'ID',
-      width: 210,
+      width: 300,
     },
     {
       field: 'name',
       headerName: 'Name',
       width: 210,
-      renderCell: (param) => {
-        return (
-          <span>
-            {param.firstName} {param.lastName.toUpperCase()}
-          </span>
-        );
-      },
     },
     {
       field: 'data',
       headerName: 'Data',
-      width: 250,
+      width: 350,
     },
     {
       field: 'action',
@@ -131,6 +133,13 @@ const Dashboard = () => {
       width: 250,
     },
   ];
+
+  const handleCommit = () => {};
+
+  const handleClear = () => {
+    localStorage.removeItem('EHR_records');
+    setRecords([]);
+  };
 
   const validate = Yup.object({
     dataSize: Yup.number()
@@ -141,11 +150,11 @@ const Dashboard = () => {
 
   return (
     <>
-      <Topbar />
+      {/* <Topbar /> */}
       <Container>
         <Sidebar />
         <Wrapper>
-          {records ? (
+          {!records.length ? (
             <GDContainer>
               <GDTitle>Generate Data</GDTitle>
               <GDFormContainer>
@@ -203,7 +212,22 @@ const Dashboard = () => {
               </GDFormContainer>
             </GDContainer>
           ) : (
-            <DataContainer></DataContainer>
+            <DataContainer>
+              <ControlContainer>
+                <ControlTitle>Generated Data</ControlTitle>
+                <ButtonContainer>
+                  <Button onClick={handleCommit}>Commit</Button>
+                  <Button onClick={handleClear}>Clear</Button>
+                </ButtonContainer>
+              </ControlContainer>
+              <DataGrid
+                rows={records}
+                columns={columns}
+                autoHeight={true}
+                pageSize={100}
+                rowsPerPageOptions={[100]}
+              />
+            </DataContainer>
           )}
         </Wrapper>
       </Container>

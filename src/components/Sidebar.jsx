@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { faDatabase, faHouseChimney } from '@fortawesome/free-solid-svg-icons';
+import { faDatabase } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
   flex: 1;
