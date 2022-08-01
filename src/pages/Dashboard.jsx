@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 import { faker } from '@faker-js/faker';
 import { DataGrid } from '@mui/x-data-grid';
 import uuid from 'react-uuid';
+import prettyBytes from 'pretty-bytes';
 
 const Container = styled.div`
   display: flex;
@@ -90,6 +91,8 @@ const Dashboard = () => {
     }
   }, []);
 
+  const byteSize = (str) => new Blob([str]).size;
+
   const generateData = (dataSize, isDoc) => {
     const records = [];
 
@@ -103,6 +106,7 @@ const Dashboard = () => {
           id: uuid(),
           name: name,
           data: message,
+          size: prettyBytes(byteSize(message)),
         });
       }
       localStorage.setItem('EHR_records', JSON.stringify(records));
@@ -115,22 +119,28 @@ const Dashboard = () => {
     {
       field: 'id',
       headerName: 'ID',
-      width: 300,
+      flex: 1,
     },
     {
       field: 'name',
       headerName: 'Name',
-      width: 210,
+      flex: 0.8,
     },
     {
       field: 'data',
       headerName: 'Data',
-      width: 350,
+      flex: 1.2,
+      minWidth: 300,
+    },
+    {
+      field: 'size',
+      headerName: ' Byte Size',
+      flex: 0.4,
     },
     {
       field: 'action',
-      headerName: 'Actions',
-      width: 250,
+      headerName: 'Action',
+      flex: 0.4,
     },
   ];
 
@@ -150,7 +160,7 @@ const Dashboard = () => {
 
   return (
     <>
-      {/* <Topbar /> */}
+      <Topbar />
       <Container>
         <Sidebar />
         <Wrapper>
