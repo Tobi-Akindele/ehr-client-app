@@ -1,4 +1,4 @@
-import { faEye, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react';
@@ -11,7 +11,6 @@ import * as Yup from 'yup';
 import { faker } from '@faker-js/faker';
 import { DataGrid } from '@mui/x-data-grid';
 import uuid from 'react-uuid';
-import prettyBytes from 'pretty-bytes';
 import { getAsset } from '../utils/ConstantUtils';
 import PDF from '../assets/PDF_File_data.json';
 import JPEG from '../assets/JPEG_File_data.json';
@@ -20,6 +19,7 @@ import DOCX from '../assets/DOCX_File_data.json';
 import PNG from '../assets/PNG_File_data.json';
 import MP3 from '../assets/MP3_File_data.json';
 import WAV from '../assets/WAV_File_data.json';
+import TextData from '../assets/Text_data.json';
 import ViewDetailsModal from '../components/modal/ViewDetailsModal';
 
 const Container = styled.div`
@@ -88,22 +88,12 @@ const ControlContainer = styled.div`
 
 const ControlTitle = styled.h1``;
 
-const ButtonView = styled.button`
-  border: 1px solid #000000;
-  border-radius: 10px;
-  padding: 5px 10px;
-  cursor: pointer;
-  background-color: white;
-`;
-
 const Dashboard = () => {
   const [isDoc, setIsDoc] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [records, setRecords] = useState([]);
   const [showViewModal, setShowViewModal] = useState(false);
   const [record, setRecord] = useState({});
-
-  const byteSize = (str) => new Blob([str]).size;
 
   const docs = [PDF, JPEG, MP4, DOCX, PNG, MP3, WAV];
 
@@ -112,21 +102,18 @@ const Dashboard = () => {
   };
 
   const generateData = (dataSize, isDoc) => {
-    const records = [];
+    let records = [];
 
     if (!isDoc) {
       for (let id = 1; id <= dataSize; id++) {
         let name =
           faker.name.firstName() + ' ' + faker.name.lastName().toUpperCase();
-        let message = faker.lorem.sentences(
-          Math.floor(Math.random() * 500 + 1000)
-        );
 
         records.push({
           id: uuid(),
           name: name,
-          data: message,
-          size: prettyBytes(byteSize(message)),
+          data: TextData.text,
+          size: TextData.size,
         });
       }
       setRecords(records);
@@ -174,18 +161,6 @@ const Dashboard = () => {
       field: 'size',
       headerName: ' Byte Size',
       flex: 0.4,
-    },
-    {
-      field: 'action',
-      headerName: 'Action',
-      flex: 0.4,
-      renderCell: (params) => {
-        return (
-          <ButtonView onClick={openViewModal}>
-            <FontAwesomeIcon icon={faEye} style={{ color: '#000000' }} /> View
-          </ButtonView>
-        );
-      },
     },
   ];
 
