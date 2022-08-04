@@ -24,6 +24,7 @@ const ModalWrapper = styled.div`
   z-index: 10;
   border-radius: 10px;
   flex-direction: column;
+  overflow-y: scroll;
 `;
 
 const ModalContentTop = styled.div`
@@ -54,6 +55,16 @@ const closeModalIcon = {
   zIndex: '10',
 };
 
+const Object = styled.object`
+  width: 100%;
+  height: 50vh;
+`;
+
+const TextView = styled.textarea`
+  width: 100%;
+  height: 50vh;
+`;
+
 const ViewDetailsModal = ({ showModal, setShowModal, data, isDoc }) => {
   const modalRef = useRef();
 
@@ -83,6 +94,17 @@ const ViewDetailsModal = ({ showModal, setShowModal, data, isDoc }) => {
           aria-label='Close modal'
           onClick={() => setShowModal((prev) => !prev)}
         />
+
+        <InfoContainer>
+          {isDoc ? (
+            <Object
+              data={`data:${data.fileType};base64,${data.base64String}`}
+              type={data.fileType}
+            ></Object>
+          ) : (
+            <TextView value={data.data} />
+          )}
+        </InfoContainer>
       </ModalWrapper>
     </Background>
   ) : null;
