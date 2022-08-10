@@ -112,7 +112,7 @@ const Dashboard = () => {
         records.push({
           id: uuid(),
           name: name,
-          data: TextData.text,
+          textData: TextData.text,
           size: TextData.size,
         });
       }
@@ -128,7 +128,7 @@ const Dashboard = () => {
         record = {
           id: uuid(),
           name: name,
-          filename: file.name,
+          fileName: file.name,
           size: file.size,
           base64String: file.base64String,
           fileType: file.type,
@@ -152,7 +152,7 @@ const Dashboard = () => {
       flex: 0.8,
     },
     {
-      field: !isDoc ? 'data' : 'filename',
+      field: !isDoc ? 'textData' : 'fileName',
       headerName: !isDoc ? 'Data' : 'File Name',
       flex: 1.2,
       minWidth: 300,
@@ -171,10 +171,7 @@ const Dashboard = () => {
   };
 
   const validate = Yup.object({
-    dataSize: Yup.number()
-      .integer()
-      .min(1)
-      .required('required'),
+    dataSize: Yup.number().integer().min(1).required('required'),
   });
 
   return (
@@ -258,7 +255,6 @@ const Dashboard = () => {
                 hideFooterSelectedRowCount
                 onCellDoubleClick={(params, event) => {
                   setRecord(params.row);
-                  console.log(params.row);
                   openViewModal();
                 }}
               />
