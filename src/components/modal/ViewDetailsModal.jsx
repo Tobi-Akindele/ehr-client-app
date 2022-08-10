@@ -84,6 +84,12 @@ const ViewDetailsModal = ({ showModal, setShowModal, data, isDoc }) => {
           Name: <InfoText>{data.name}</InfoText>
         </InfoContainer>
 
+        {isDoc && (
+          <InfoContainer>
+            File Name: <InfoText>{data.fileName}</InfoText>
+          </InfoContainer>
+        )}
+
         <InfoContainer>
           Data Size: <InfoText>{data.size}</InfoText>
         </InfoContainer>
@@ -102,7 +108,7 @@ const ViewDetailsModal = ({ showModal, setShowModal, data, isDoc }) => {
               type={data.fileType}
             ></Object>
           ) : (
-            <TextView value={data.data} />
+            <TextView value={data.textData} readOnly />
           )}
         </InfoContainer>
       </ModalWrapper>
