@@ -40,6 +40,12 @@ const InfoContainer = styled.div`
   color: #444;
 `;
 
+const LoadingContainer = styled.div`
+  margin: 50%;
+  display: flex;
+  justify-content: center;
+`;
+
 const InfoText = styled.div`
   margin-left: 10px;
 `;
@@ -65,7 +71,13 @@ const TextView = styled.textarea`
   height: 50vh;
 `;
 
-const ViewDetailsModal = ({ showModal, setShowModal, data, isDoc }) => {
+const ViewDetailsModal = ({
+  showModal,
+  setShowModal,
+  data,
+  isDoc,
+  setData,
+}) => {
   const modalRef = useRef();
 
   const closeModal = (e) => {
