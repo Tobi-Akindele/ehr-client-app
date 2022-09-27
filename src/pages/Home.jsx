@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 import { DataGrid } from '@mui/x-data-grid';
 import uuid from 'react-uuid';
+import { format } from 'timeago.js';
 import ViewDetailsModal from '../components/modal/ViewDetailsModal';
 import { useNavigate } from 'react-router';
 
@@ -79,11 +80,14 @@ const Home = () => {
     //   flex: 1.2,
     //   minWidth: 300,
     // },
-    // {
-    //   field: 'createdAt',
-    //   headerName: ' Created Date',
-    //   flex: 0.4,
-    // },
+    {
+      field: 'createdAt',
+      headerName: ' Created Date',
+      flex: 0.4,
+      renderCell: (params) => {
+        return <span>{format(params.row.createdAt)}</span>;
+      },
+    },
   ];
 
   const [pageState, setPageState] = useState({
