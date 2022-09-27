@@ -1,16 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Dashboard from './pages/Dashboard';
+import Home from './pages/Home';
+import ViewRecord from './pages/ViewRecord';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Dashboard />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/ehr-record/:id' element={<ViewRecord />} />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

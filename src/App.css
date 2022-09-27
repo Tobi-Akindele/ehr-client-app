@@ -7,3 +7,8 @@
   color: red;
   font-size: 0.8rem;
 }
+
+.container {
+  display: flex;
+  margin-top: 10px;
+}

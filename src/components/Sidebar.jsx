@@ -65,7 +65,7 @@ const Sidebar = () => {
                   icon={faDatabase}
                   title='Home'
                 />
-                Generate Data
+                EHR Records
               </ListItem>
             </Link>
           </List>
